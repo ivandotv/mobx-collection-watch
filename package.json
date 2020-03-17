@@ -1,0 +1,116 @@
+{
+  "name": "mobx-collection-watch",
+  "version": "1.0.0",
+  "private": false,
+  "description": "",
+  "main": "dist/cjs/index.js",
+  "module": "dist/unpkg/mylib.esm.js",
+  "unpkg": "dist/unpkg/mylib.js",
+  "jsdelivr": "dist/unpkg/mylib.js",
+  "sideEffects": false,
+  "types": "dist/types/",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "semantic-release": "semantic-release",
+    "cz": "git-cz",
+    "fix:src": "eslint --fix \"./src/**/*.{js,jsx,ts,tsx}\"",
+    "fix:tests": "eslint --fix \"./tests/**/*.{js,jsx,ts,tsx}\"",
+    "fix": "npm-run-all -p fix:*",
+    "docs": "del docs/api && typedoc --theme markdown --readme none --excludePrivate --excludeNotExported --out docs/api ./src",
+    "test": "cross-env  BABEL_ENV=test jest --verbose --coverage --no-cache",
+    "test:watch": "cross-env BABEL_ENV=test jest --watch",
+    "test:ci": "npm run type-check && jest --runInBand --ci --reporters=default --reporters=jest-junit --coverage --coverageDirectory=coverage",
+    "type-check": "tsc -p tsconfig.check-types.json",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build:types": "del dist/types && tsc -p tsconfig.build-types.json",
+    "build:browser": "del dist/unpkg && rollup -c",
+    "build:cjs": "del dist/cjs && cross-env BABEL_ENV=cjs babel src --out-dir dist/cjs --extensions \".ts,.tsx,js,jsx\" --source-maps --verbose",
+    "build:esm": "del dist/esm && cross-env BABEL_ENV=esm babel src --out-dir dist/esm --extensions \".ts,.tsx,js,jsx\" --source-maps",
+    "build": "npm run build:types && npm run build:cjs && npm run build:esm && npm run build:browser",
+    "build:watch": "npm run build:cjs -- --watch"
+  },
+  "jest-junit": {
+    "outputDirectory": "./reports/junit",
+    "outputName": "test-results.xml"
+  },
+  "config": {
+    "commitizen": {
+      "path": "cz-conventional-changelog"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ivandotv/mobx-collection-watch"
+  },
+  "bugs": {
+    "url": "https://github.com/ivandotv/mobx-collection-watch"
+  },
+  "homepage": "https://github.com/ivandotv/mobx-collection-watch",
+  "keywords": [
+    "mobx",
+    "array",
+    "watch"
+  ],
+  "author": "Ivan Vlatkovic",
+  "dependencies": {},
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.7",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/plugin-proposal-object-rest-spread": "^7.8.3",
+    "@babel/preset-env": "^7.8.7",
+    "@babel/preset-typescript": "^7.8.3",
+    "@babel/types": "^7.8.7",
+    "@rollup/plugin-commonjs": "^11.0.2",
+    "@rollup/plugin-node-resolve": "^7.1.1",
+    "@size-limit/preset-small-lib": "^4.2.1",
+    "@types/jest": "^25.1.4",
+    "@types/lodash-es": "^4.17.3",
+    "@types/lodash.filter": "^4.6.6",
+    "@types/lodash.orderby": "^4.6.6",
+    "@types/lodash.shuffle": "^4.2.6",
+    "@types/node": "^13.9.0",
+    "@typescript-eslint/eslint-plugin": "^2.22.0",
+    "@typescript-eslint/parser": "^2.22.0",
+    "babel-plugin-dev-expression": "^0.2.2",
+    "babel-plugin-transform-define": "^2.0.0",
+    "babel-preset-minify": "^0.5.1",
+    "commitizen": "^4.0.3",
+    "core-js": "^3.6.4",
+    "cross-env": "^7.0.2",
+    "cz-conventional-changelog": "^3.1.0",
+    "del-cli": "^3.0.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "husky": "^4.2.3",
+    "jest": "^25.1.0",
+    "jest-junit": "^10.0.0",
+    "jest-watch-typeahead": "^0.4.2",
+    "lint-staged": "^10.0.8",
+    "mobx": "^5.15.4",
+    "nodemon": "^2.0.2",
+    "npm-run-all": "^4.1.5",
+    "prettier": "^1.19.1",
+    "prettier-standard": "^16.2.1",
+    "rollup": "^2.0.2",
+    "rollup-plugin-babel": "^4.4.0",
+    "rollup-plugin-filesize": "^6.2.1",
+    "rollup-plugin-peer-deps-external": "^2.2.2",
+    "rollup-plugin-terser": "^5.2.0",
+    "standardx": "^5.0.0",
+    "typedoc": "^0.17.0",
+    "typedoc-plugin-markdown": "^2.2.17",
+    "typescript": "^3.8.3",
+    "semantic-release": "^17.0.4"
+  },
+  "peerDependencies": {
+    "mobx": "^5.15.4"
+  }
+}
