@@ -48,10 +48,10 @@ const dispose = arrayAdded(collection, (items, disposer) => {
   disposer()
 })
 
-collection.push([1, 2, 3])
+collection.push(1, 2, 3)
 
 // this will also work
-collection[0] = 4
+collection[3] = 4
 
 //stop responding for new items
 dispose()
