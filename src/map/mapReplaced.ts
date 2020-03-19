@@ -19,7 +19,7 @@ import { MapValueUpdateCb, MapValueUpdateInfo } from '..'
  * @param [delay] Delay in miliseconds when to run the callback on change
  * @returns Function to dispose the reaction
  */
-export function mapUpdated<K = any, T = any>(
+export function mapReplaced<K = any, T = any>(
   collection: ObservableMap<K, T>,
   cb: MapValueUpdateCb<K, T>,
   delay = 0

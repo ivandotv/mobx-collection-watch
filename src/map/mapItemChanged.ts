@@ -7,7 +7,7 @@ import {
 } from 'mobx'
 import { mapAdded, SelectorFn, MapCallback, MapChangeInfo } from './mapAdded'
 import { mapRemoved } from './mapRemoved'
-import { mapUpdated } from './mapUpdated'
+import { mapReplaced } from './mapReplaced'
 import { Dispose } from '../array/arrayAdded'
 
 /**
@@ -55,7 +55,7 @@ export function mapItemChanged<T = any, K = any>(
       disposerByItem.delete(item.key)
     })
   })
-  const disposeUpdated = mapUpdated(observableMap, items => {
+  const disposeUpdated = mapReplaced(observableMap, items => {
     // remove old reaction
     items.forEach(updatedItem => {
       disposerByItem.get(updatedItem.key)!()

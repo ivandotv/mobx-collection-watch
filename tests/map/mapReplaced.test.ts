@@ -1,5 +1,5 @@
 import { observable, runInAction, ObservableMap } from 'mobx'
-import { mapUpdated } from '../../src/map/mapUpdated'
+import { mapReplaced } from '../../src/map/mapReplaced'
 
 describe('Map Updated', () => {
   test('Update map primitive key (number)', () => {
@@ -18,7 +18,7 @@ describe('Map Updated', () => {
     collection.set(item1.key, item1.value)
     collection.set(item2.key, item2.value)
 
-    mapUpdated<number, string>(collection, cb)
+    mapReplaced<number, string>(collection, cb)
     collection.set(item1.key, item1Update)
     collection.set(item2.key, item2Update)
 
@@ -48,7 +48,7 @@ describe('Map Updated', () => {
     const item1Update = 'newValue'
     const item2Update = 'newValue2'
 
-    mapUpdated<number, string>(collection, cb)
+    mapReplaced<number, string>(collection, cb)
     collection.set(item1.key, item1Update)
     collection.set(item2.key, item2Update)
 
@@ -85,7 +85,7 @@ describe('Map Updated', () => {
     const item1Update = 'newValue'
     const item2Update = 'newValue2'
 
-    mapUpdated<number, string>(collection, cb, 10)
+    mapReplaced<number, string>(collection, cb, 10)
     collection.set(item1.key, item1Update)
     collection.set(item2.key, item2Update)
   })
@@ -106,7 +106,7 @@ describe('Map Updated', () => {
     collection.set(item1.key, item1.value)
     collection.set(item2.key, item2.value)
 
-    mapUpdated<number, string>(collection, cb)
+    mapReplaced<number, string>(collection, cb)
 
     runInAction(() => {
       collection.set(item1.key, item1Update)
@@ -137,7 +137,7 @@ describe('Map Updated', () => {
     collection.set(item1.key, item1.value)
     collection.set(item2.key, item2.value)
 
-    mapUpdated<number, string>(collection, cb)
+    mapReplaced<number, string>(collection, cb)
     collection.set(item1.key, item1Update)
     collection.set(item1.key, item2Update)
 
@@ -165,7 +165,7 @@ describe('Map Updated', () => {
     collection.set(item1.key, item1.value)
     collection.set(item2.key, item2.value)
 
-    mapUpdated<number, string>(collection, cb)
+    mapReplaced<number, string>(collection, cb)
 
     runInAction(() => {
       collection.set(item1.key, item1Update)
@@ -195,7 +195,7 @@ describe('Map Updated', () => {
     collection.set(item1.key, item1.value)
     collection.set(item2.key, item2.value)
 
-    mapUpdated<number, string>(collection, cb)
+    mapReplaced<number, string>(collection, cb)
     collection.merge({
       [item1.key]: item1Update,
       [item2.key]: item2Update
@@ -224,7 +224,7 @@ describe('Map Updated', () => {
     collection.set(item1.key, item1.value)
     collection.set(item2.key, item2.value)
 
-    mapUpdated<number, string>(collection, cb)
+    mapReplaced<number, string>(collection, cb)
 
     const item1IntermediateUpdate = 'intermediate'
     runInAction(() => {
@@ -244,7 +244,7 @@ describe('Map Updated', () => {
   })
   test('Throw if passed in map is not an observable map', () => {
     expect(() => {
-      mapUpdated(([] as unknown) as ObservableMap, jest.fn())
+      mapReplaced(([] as unknown) as ObservableMap, jest.fn())
     }).toThrow(/Map as the first argument/)
   })
   test('Stop reacting when dispose callback is called', () => {
@@ -263,7 +263,7 @@ describe('Map Updated', () => {
     const item1Update = 'newValue'
     const item2Update = 'newValue2'
 
-    const dispose = mapUpdated<number, string>(collection, cb)
+    const dispose = mapReplaced<number, string>(collection, cb)
     collection.set(item1.key, item1Update)
     dispose()
     collection.set(item2.key, item2Update)
