@@ -1,7 +1,7 @@
 # Mobx Collection Watch
 
 ![Codecov](https://img.shields.io/codecov/c/github/ivandotv/mobx-collection-watch)
-![Node unit tests](https://github.com/ivandotv/mobx-collection-watch/workflows/CI/badge.svg)
+![CI](https://github.com/ivandotv/mobx-collection-watch/workflows/CI/badge.svg)
 
 ## Install
 
@@ -12,20 +12,22 @@ npm install mobx-collection-watch
 ## Table of Contents
 
 - [How it works](#how-it-works)
-- [Adding items to array][#adding-items-to-array]
-- [Removing items][#removing-items-from-array]
-- [Updating items][#updating-items]
-
-
-    This package enables you to watch for items added, removed, updated or replaced in maps or arrays.
-    Also works with [enforceActions](https://mobx.js.org/refguide/api.html#enforceactions) mode.
+- [Adding items](#adding-items)
+- [Removing items](#removing-items)
+- [Replacing items](#replacing-items)
+- [Tracking changes to the items](#tracking-changes-to-the-items-in-the-collection)
+- [Working with mobx actions](#working-with-mobx-actions)
+- [Delayed callbacks](#delayed-callbacks)
 
 ## How it works
+
+This package enables you to watch for items added, removed, updated or replaced in maps or arrays.
+Also works with [enforceActions](https://mobx.js.org/refguide/api.html#enforceactions) mode.
 
 This package is using [mobx observe interface](https://mobx.js.org/refguide/observe.html) to listen to changes on arrays and maps.
 So you just keep using mobx with arrays and maps as usual.
 
-### Adding items
+## Adding items
 
 Watching for newly added items. Every time something is added to the collection a callback will run with the new value that has been added. Replacing items at a particular array index also works.
 
@@ -80,7 +82,7 @@ collection.set('a', 'one')
 collection.set('b', 'two')
 ```
 
-### Removing items
+## Removing items
 
 Every time something is removed from the collection a callback will run with the value that has been removed.
 
@@ -184,10 +186,22 @@ dispose()
 ```
 
 **map**:
+Map replacement payload callback data:
+
+```js
+// map key 'foo' which holds the value 1 is replaced with value 2
+;[
+  {
+    key: 'foo,
+    oldValue: 1,
+    newValue: 2
+  }
+]
+```
 
 ```js
 import { observable, runInAction } from 'mobx'
-import { mapUpdated } from 'mobx-collection-watch'
+import { mapReplaced } from 'mobx-collection-watch'
 
 const collection = observable(
   new Map([
@@ -214,10 +228,12 @@ runInAction(() => {
 })
 ```
 
-### Tracking the changes to the items in the array
+## Tracking changes to the items in the collection
 
-`arrayItemChanged` function is a little different. It tracks items in the array **not the array itself**.
-Every time the item is added to the array you can start tracking changes to that item. So you are not tracking what get's added or removed to the array, rather you are tracking individual items that are added to the array. And when the item is removed from the array, tracking for that item will stop. Under the hood it uses [mobx reaction()](https://mobx.js.org/refguide/reaction.html)
+This functionality enables you to track changes to the items in the collection **not the collection itself**.
+Every time the item is added to the collection you can start tracking changes to that item. So you are not tracking what get's added or removed from the collection, rather you are tracking individual item changes that are in the collection. And when the item is removed from the collection, tracking for that item will stop. Under the hood it uses [mobx reaction()](https://mobx.js.org/refguide/reaction.html)
+
+**array**:
 
 ```js
 import { observable, toJS } from 'mobx'
@@ -254,56 +270,7 @@ const dispose = arrayItemChanged(collection, selectorFn, cb, options)
 dispose()
 ```
 
-### Changing Arrays from Inside the Mobx Actions
-
-When using mobx method [runInAction](https://mobx.js.org/best/actions.html#the-runinaction-utility)
-All modifications to the array are batched. In the next example, _callback_ function will be triggered only once
-
-```ts
-// ...code
-
-runInAction(() => {
-  collection.push(1)
-  collection.push(2)
-  collection.push(3, 4)
-})
-
-//callback will be triggered once with [1,2,3,4]
-```
-
-### Changing the Array when a callback is delayed
-
-The callback can be called with a `delay`, when that happens all changes to the array are batched (similar to how `runInAction` works).
-Delay is supported by all array functions.
-
-The next example is tracking additions to the array with a delay of `100ms`, and it will be triggered only once.
-
-```ts
-import { observable } from 'mobx'
-import { arrayAdded } from 'mobx-collection-watch'
-
-const collection = observable([])
-const cb = (items, disposer) => {
-  items.forEach(item => {
-    console.log(`added ${item}`)
-  })
-}
-
-//callback will be triggered only once with [1,2,3,4,5]
-const dispose = arrayAdded(collection, cb, 100)
-
-collection.push(1)
-collection.push(2)
-collection.push(3, 4, 5)
-```
-
-## Maps
-
-### Respond to map item updates
-
-### Respond to changes to the items inside the map
-
-Every time the item is added to the map you can start tracking changes to that item. So you are not tracking what get's added or removed from the map, rather you are tracking individual items that are added to the map. And when the item is removed from the map, tracking for that item will stop. Under the hood it uses [mobx reaction()](https://mobx.js.org/refguide/reaction.html)
+**map**:
 
 ```js
 import { observable, runInAction } from 'mobx'
@@ -329,6 +296,50 @@ const cb = function(data, item, reaction) {
 const collection = observable(new Map())
 collection.set('a', item1)
 
-//change item2
+//change item1
 item1.value.id = 5
+```
+
+## Working with mobx actions
+
+When working with mobx actions, using for example [runInAction](https://mobx.js.org/best/actions.html#the-runinaction-utility).
+All modifications to the collection are batched. In the next example, _callback_ function will be triggered only once.
+
+```ts
+// ...code
+
+runInAction(() => {
+  collection.push(1)
+  collection.push(2)
+  collection.push(3, 4)
+})
+
+//callback will be triggered once with [1,2,3,4]
+```
+
+## Delayed callbacks
+
+The callback can be called with a `delay`, when that happens all changes to the collection are batched (similar to how `runInAction` works).
+Delay is supported by all collection functions.
+
+The next example is tracking additions to the array with a delay of `100ms`, and it will be triggered only once.
+Notice that we are not running inside `mobx actions`
+
+```ts
+import { observable } from 'mobx'
+import { arrayAdded } from 'mobx-collection-watch'
+
+const collection = observable([])
+const cb = (items, disposer) => {
+  items.forEach(item => {
+    console.log(`added ${item}`)
+  })
+}
+
+//callback will be triggered only once with [1,2,3,4,5]
+const dispose = arrayAdded(collection, cb, 100)
+
+collection.push(1)
+collection.push(2)
+collection.push(3, 4, 5)
 ```
