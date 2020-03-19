@@ -97,17 +97,17 @@ const collection = observable([1, 2, 3, 4])
 const dispose = arrayRemoved(collection, (items, disposer) => {
   // items is array of newl
   items.forEach(item => {
-    console.log(`added ${item}`)
+    console.log(`removed ${item}`)
   })
 
-  // stop responding to new items from inside the callback
+  // stop responding to removed items from inside the callback
   disposer()
 })
 
 collection.pop() // trigger callback with [4]
 collection.splice(0, 2) //trigger callback with [1,2]
 
-// this will not work!
+// NOTE: this will not work!
 collection[0] = 5
 //stop responding for new items
 dispose()
