@@ -24,8 +24,7 @@ npm install mobx-collection-watch
 This package enables you to watch for items added, removed, updated or replaced in maps or arrays.
 Also works with [enforceActions](https://mobx.js.org/refguide/api.html#enforceactions) mode.
 
-This package is using [mobx observe interface](https://mobx.js.org/refguide/observe.html) to listen to changes on arrays and maps.
-So you just keep using mobx with arrays and maps as usual.
+This package is using [mobx observe](https://mobx.js.org/refguide/observe.html) to listen to changes on arrays and maps.
 
 ## Adding items
 
