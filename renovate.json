@@ -6,6 +6,12 @@
     {
       "updateTypes": ["minor", "patch", "pin", "digest"],
       "automerge": true
+    },
+    {
+      "depTypeList": ["devDependencies"],
+      "updateTypes": ["patch", "minor", "pin", "digest"],
+      "groupName": "devDependencies (non-major)",
+      "automerge": true
     }
   ]
 }
