@@ -28,7 +28,7 @@ This package is using [mobx observe](https://mobx.js.org/refguide/observe.html) 
 
 ## Adding items
 
-Monitor for newly added items. Every time something is added to the collection a callback will run with the new value that has been added. Replacing items at a particular array index also works.
+Monitor collection for new items. Every time something is added to the collection a callback will run with the new value that has been added. Replacing items at a particular array index also works.
 
 **array**:
 
