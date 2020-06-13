@@ -35,14 +35,14 @@ jobs:
         env:
           CI: true
       - name: Generate Code Coverage
-        if: matrix.node == 12
+        if: matrix.node == 14
         uses: codecov/codecov-action@v1
         with:
           token: ${{ secrets.CODECOV_TOKEN }} # not required for public repos
           file: ./coverage/coverage-final.json
 
       - name: 'Publish to NPM'
-        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && matrix.node == 12
+        if: github.event_name == 'push' && github.ref == 'refs/heads/master' && matrix.node == 14
         run: npm run semantic-release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
