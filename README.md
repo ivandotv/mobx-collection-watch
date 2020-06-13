@@ -21,14 +21,14 @@ npm install mobx-collection-watch
 
 ## How it works
 
-This package enables you to watch for items added, removed, updated or replaced in maps or arrays.
+Monitor mobx arrays and maps for changes.
 Also works with [enforceActions](https://mobx.js.org/refguide/api.html#enforceactions) mode.
 
 This package is using [mobx observe](https://mobx.js.org/refguide/observe.html) to listen to changes on arrays and maps.
 
 ## Adding items
 
-Watching for newly added items. Every time something is added to the collection a callback will run with the new value that has been added. Replacing items at a particular array index also works.
+Monitor for newly added items. Every time something is added to the collection a callback will run with the new value that has been added. Replacing items at a particular array index also works.
 
 **array**:
 
@@ -40,7 +40,7 @@ const collection = observable([])
 
 const dispose = arrayAdded(collection, (items, disposer) => {
   // items is array of newl
-  items.forEach(item => {
+  items.forEach((item) => {
     console.log(`added ${item}`) // 1,2,3
   })
 
@@ -66,8 +66,8 @@ import { mapAdded } from 'mobx-collection-watch'
 const collection = observable(new Map())
 
 //callback
-const cb = function(items, dispose) {
-  items.forEach(item => {
+const cb = function (items, dispose) {
+  items.forEach((item) => {
     console.log(item) // {key:'a',value:'one'} , {key:'b',value:'two'}
   })
 
@@ -96,7 +96,7 @@ const collection = observable([1, 2, 3, 4])
 
 const dispose = arrayRemoved(collection, (items, disposer) => {
   // items is array of newl
-  items.forEach(item => {
+  items.forEach((item) => {
     console.log(`removed ${item}`)
   })
 
@@ -129,8 +129,8 @@ const collection = observable(
 )
 
 //callback
-const cb = function(items, dispose) {
-  items.forEach(item => {
+const cb = function (items, dispose) {
+  items.forEach((item) => {
     console.log(item) // {key:'a',value:'one'} , {key:'b',value:'two'}
   })
 
@@ -169,10 +169,10 @@ import { observable } from 'mobx'
 import { arrayReplaced } from 'mobx-collection-watch'
 
 const collection = observable([1, 2, 3, 4])
-const cb = function() {}
+const cb = function () {}
 
 const dispose = arrayReplaced(collection, (replacedData, disposer) => {
-  replacedData.forEach(data => {
+  replacedData.forEach((data) => {
     console.log(data) // e.g. {index:0, oldValue:1,newValue:3}
   })
 })
@@ -210,8 +210,8 @@ const collection = observable(
 )
 
 //callback
-const cb = function(items, dispose) {
-  items.forEach(item => {
+const cb = function (items, dispose) {
+  items.forEach((item) => {
     console.log(item) // {key:'a',oldValue:'one',newValue:'foo'} , {key:'b',oldValue:'two',newValue:'bar'}
   })
 
@@ -245,7 +245,7 @@ const collection = observable([item1, item2])
 
 //function that determines what properties are tracked.
 //everything accessed inside the function will be tracked.
-const selectorFn = item => {
+const selectorFn = (item) => {
   return toJS(item) // monitor all properties
   //or
   // monitor only the name
@@ -284,7 +284,7 @@ const item1 = observable({
 })
 
 //callback
-const cb = function(data, item, reaction) {
+const cb = function (data, item, reaction) {
   console.log(data) //5
   console.log(item) // item2
 
@@ -330,7 +330,7 @@ import { arrayAdded } from 'mobx-collection-watch'
 
 const collection = observable([])
 const cb = (items, disposer) => {
-  items.forEach(item => {
+  items.forEach((item) => {
     console.log(`added ${item}`)
   })
 }
