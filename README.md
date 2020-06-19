@@ -22,7 +22,7 @@ npm install mobx-collection-watch
 ## How it works
 
 Monitor mobx arrays and maps for changes.
-Also works with [enforceActions](https://mobx.js.org/refguide/api.html#enforceactions) mode.
+Works with [mobx enforceActions](https://mobx.js.org/refguide/api.html#enforceactions) mode.
 
 This package is using [mobx observe](https://mobx.js.org/refguide/observe.html) to listen to changes on arrays and maps.
 
