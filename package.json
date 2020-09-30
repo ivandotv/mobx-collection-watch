@@ -99,7 +99,7 @@
     "jest-junit": "^11.0.0",
     "jest-watch-typeahead": "^0.6.0",
     "lint-staged": "^10.2.4",
-    "mobx": "^5.15.4",
+    "mobx": "^6.0.0",
     "nodemon": "^2.0.4",
     "npm-run-all": "^4.1.5",
     "prettier": "^2.0.5",
@@ -116,6 +116,6 @@
     "typescript": "^4.0.0"
   },
   "peerDependencies": {
-    "mobx": "^5.15.4"
+    "mobx": "^6.0.0"
   }
 }
