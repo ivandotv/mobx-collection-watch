@@ -1,3 +1,14 @@
+## [3.0.0](https://github.com/ivandotv/mobx-collection-watch/compare/v2.4.0...v3.0.0) (2020-11-27)
+
+
+### ⚠ BREAKING CHANGES
+
+* stop building versions with polyfills
+
+### ci
+
+* stop building versions with polyfills ([f50dd99](https://github.com/ivandotv/mobx-collection-watch/commit/f50dd990e61194ad661a80d8bcbbe5f38428817c))
+
 ### [2.0.2](https://github.com/ivandotv/mobx-collection-watch/compare/v2.0.1...v2.0.2) (2020-06-19)
 
 

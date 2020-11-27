@@ -1,6 +1,6 @@
 {
   "name": "mobx-collection-watch",
-  "version": "2.4.0",
+  "version": "3.0.0",
   "private": false,
   "description": "Monitor mobx arrays and maps for changes.",
   "main": "dist/cjs/index.js",
