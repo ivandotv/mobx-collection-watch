@@ -1,6 +1,5 @@
 import {
-  IArrayChange,
-  IArraySplice,
+  IArrayDidChange,
   IObservableArray,
   isObservableArray,
   observable,
@@ -40,20 +39,17 @@ export function monitorArray<T = any>(
     },
     { delay: delay }
   )
-  const disposeObserve = observe(
-    observableArray,
-    (change: IArrayChange<T> | IArraySplice<T>) => {
-      // handleChangeFn(change, changedItems, changeFlag)
-      /* istanbul ignore next */
-      if (change.type === 'splice' && change[changeType].length > 0) {
-        runInAction(() => {
-          changedItems.push(...change[changeType])
-          // mark the change
-          changeFlag.set({})
-        })
-      }
+  const disposeObserve = observe(observableArray, (change: IArrayDidChange) => {
+    // handleChangeFn(change, changedItems, changeFlag)
+    /* istanbul ignore next */
+    if (change.type === 'splice' && change[changeType].length > 0) {
+      runInAction(() => {
+        changedItems.push(...change[changeType])
+        // mark the change
+        changeFlag.set({})
+      })
     }
-  )
+  })
   function dispose(): void {
     disposeObserve()
     disposeReaction()

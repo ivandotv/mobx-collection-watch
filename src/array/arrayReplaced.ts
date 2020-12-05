@@ -1,12 +1,11 @@
 import {
-  IArrayChange,
-  IArraySplice,
+  IArrayDidChange,
   IObservableArray,
+  isObservableArray,
   observable,
   observe,
   reaction,
-  runInAction,
-  isObservableArray
+  runInAction
 } from 'mobx'
 import { Dispose } from './arrayAdded'
 
@@ -49,31 +48,28 @@ export function arrayReplaced<T = any>(
     { delay: delay }
   )
 
-  const disposeObserve = observe(
-    observableArray,
-    (change: IArrayChange<T> | IArraySplice<T>) => {
-      /* istanbul ignore next */
-      if (change.type === 'update') {
-        runInAction(() => {
-          if (!replaced[change.index]) {
-            replaced[change.index] = {
-              oldValue: change.oldValue,
-              newValue: change.newValue,
-              index: change.index
-            }
-          } else {
-            replaced[change.index] = {
-              oldValue: replaced[change.index].oldValue,
-              newValue: change.newValue,
-              index: change.index
-            }
+  const disposeObserve = observe(observableArray, (change: IArrayDidChange) => {
+    /* istanbul ignore next */
+    if (change.type === 'update') {
+      runInAction(() => {
+        if (!replaced[change.index]) {
+          replaced[change.index] = {
+            oldValue: change.oldValue,
+            newValue: change.newValue,
+            index: change.index
           }
+        } else {
+          replaced[change.index] = {
+            oldValue: replaced[change.index].oldValue,
+            newValue: change.newValue,
+            index: change.index
+          }
+        }
 
-          changeFlag.set({})
-        })
-      }
+        changeFlag.set({})
+      })
     }
-  )
+  })
 
   function dispose(): void {
     disposeReaction()

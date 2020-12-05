@@ -39,8 +39,8 @@ export function mapItemChanged<T = any, K = any>(
     )
   })
 
-  const disposeAdded = mapAdded(observableMap, items => {
-    items.forEach(item => {
+  const disposeAdded = mapAdded(observableMap, (items) => {
+    items.forEach((item) => {
       disposerByItem.set(
         item.key,
         setupItemReaction<T, K>(item.value, selectorFn, cb, options)
@@ -48,16 +48,16 @@ export function mapItemChanged<T = any, K = any>(
     })
   })
 
-  const disposeRemoved = mapRemoved(observableMap, removedItems => {
-    removedItems.forEach(item => {
+  const disposeRemoved = mapRemoved(observableMap, (removedItems) => {
+    removedItems.forEach((item) => {
       // run reaction
       disposerByItem.get(item.key)!()
       disposerByItem.delete(item.key)
     })
   })
-  const disposeUpdated = mapReplaced(observableMap, items => {
+  const disposeUpdated = mapReplaced(observableMap, (items) => {
     // remove old reaction
-    items.forEach(updatedItem => {
+    items.forEach((updatedItem) => {
       disposerByItem.get(updatedItem.key)!()
       // setup new reaction
       disposerByItem.set(
@@ -85,7 +85,7 @@ function setupItemReaction<T, K>(
 ): IReactionDisposer {
   return reaction(
     () => selectorFn(item),
-    (selectorData, reaction) => effectFn(selectorData, item, reaction),
+    (selectorData, _, reaction) => effectFn(selectorData, item, reaction),
     options
   )
 }
