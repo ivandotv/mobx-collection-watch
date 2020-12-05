@@ -1,5 +1,15 @@
-import { observable, runInAction, toJS, IObservableArray } from 'mobx'
+import {
+  observable,
+  configure,
+  runInAction,
+  toJS,
+  IObservableArray
+} from 'mobx'
 import { arrayItemChanged } from '../../src/array/arrayItemChanged'
+
+configure({
+  enforceActions: 'never'
+})
 
 type TestItem = {
   id: number
@@ -190,7 +200,7 @@ describe('arrayChangedItem', () => {
     expect(cb.mock.calls[2][0]).toBe(change3)
     expect(cb).toBeCalledTimes(3)
   })
-  test('React to updating item multiple times - with delay', done => {
+  test('React to updating item multiple times - with delay', (done) => {
     const selectorFn = (item: TestItem): number => {
       return toJS(item).id
     }
@@ -249,6 +259,7 @@ describe('arrayChangedItem', () => {
 
     expect(cb).toBeCalledTimes(0)
   })
+
   test('If "dispose" method is called, stop reacting to all updates', () => {
     const selectorFn = (item: TestItem): number => {
       return toJS(item).id
@@ -269,7 +280,7 @@ describe('arrayChangedItem', () => {
     const selectorFn = (item: TestItem): number => {
       return toJS(item).id
     }
-    const cb = jest.fn((data, item, reaction) => {
+    const cb = jest.fn((_data, _item, reaction) => {
       reaction.dispose()
     })
 
@@ -282,6 +293,7 @@ describe('arrayChangedItem', () => {
 
     expect(cb).toBeCalledTimes(1)
   })
+
   test('If collection "dispose" method is called, stop all reactions - runInAction', () => {
     const selectorFn = (item: TestItem): number => {
       return toJS(item).id

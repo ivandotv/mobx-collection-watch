@@ -1,5 +1,10 @@
-import { observable, toJS, runInAction, ObservableMap } from 'mobx'
+import { observable, configure, toJS, runInAction, ObservableMap } from 'mobx'
+
 import { mapItemChanged } from '../../src/map/mapItemChanged'
+
+configure({
+  enforceActions: 'never'
+})
 type TestItem = {
   id: number
   name: string
@@ -97,7 +102,7 @@ describe('Map item changed', () => {
     expect(cb.mock.calls[0][1]).toEqual(item1.value)
     expect(cb).toHaveBeenCalledTimes(2)
   })
-  test('React to updating the same item multiple times - with delay', done => {
+  test('React to updating the same item multiple times - with delay', (done) => {
     const item1 = observable({
       key: {},
       value: {

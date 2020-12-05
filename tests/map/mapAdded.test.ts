@@ -1,5 +1,10 @@
-import { observable, runInAction, ObservableMap } from 'mobx'
+import { observable, configure, runInAction, ObservableMap } from 'mobx'
+
 import { mapAdded } from '../../src/map/mapAdded'
+
+configure({
+  enforceActions: 'never'
+})
 
 describe('Map Added', () => {
   test('Add to map primitive key (number)', () => {
@@ -45,7 +50,7 @@ describe('Map Added', () => {
 
     expect(cb).toHaveBeenCalledTimes(2)
   })
-  test('Add to map - object as key - with delay', done => {
+  test('Add to map - object as key - with delay', (done) => {
     const collection = observable(new Map())
     const cb = jest.fn().mockImplementation(() => {
       expect(cb.mock.calls[0][0]).toEqual([item1, item2])

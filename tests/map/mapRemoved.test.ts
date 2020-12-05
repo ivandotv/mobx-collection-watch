@@ -1,6 +1,9 @@
-import { observable, runInAction, ObservableMap } from 'mobx'
+import { observable, configure, runInAction, ObservableMap } from 'mobx'
 import { mapRemoved } from '../../src/map/mapRemoved'
 
+configure({
+  enforceActions: 'never'
+})
 type TestItem = {
   id: number
 }
@@ -59,7 +62,7 @@ describe('Map Removed', () => {
     expect(cb.mock.calls[0][0]).toEqual([item1, item2])
     expect(cb).toHaveBeenCalledTimes(1)
   })
-  test('react to removing items - with delay', done => {
+  test('react to removing items - with delay', (done) => {
     const collection = observable(new Map())
     const cb = jest.fn().mockImplementation(() => {
       expect(cb.mock.calls[0][0]).toEqual([item1, item2])

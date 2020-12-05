@@ -39,9 +39,9 @@ export function arrayItemChanged<T = any, K = any>(
     disposerByItem.set(item, setupItemReaction(item, selectorFn, cb, options))
   })
 
-  const disposeReplaced = arrayReplaced(observableArray, replacedItems => {
+  const disposeReplaced = arrayReplaced(observableArray, (replacedItems) => {
     // remove old reaction
-    replacedItems.forEach(replaced => {
+    replacedItems.forEach((replaced) => {
       disposerByItem.get(replaced.oldValue)!()
       disposerByItem.delete(replaced.oldValue)
       // setup new reaction
@@ -53,7 +53,7 @@ export function arrayItemChanged<T = any, K = any>(
   })
 
   const disposeRemoved = arrayRemoved(observableArray, (items: T[]) => {
-    items.forEach(item => {
+    items.forEach((item) => {
       // run reaction
       disposerByItem.get(item)!()
       disposerByItem.delete(item)
@@ -61,7 +61,7 @@ export function arrayItemChanged<T = any, K = any>(
   })
 
   const disposeAdded = arrayAdded(observableArray, (items: T[]) => {
-    items.forEach(item => {
+    items.forEach((item) => {
       disposerByItem.set(item, setupItemReaction(item, selectorFn, cb, options))
     })
   })
@@ -84,7 +84,7 @@ function setupItemReaction<T, K>(
 ): IReactionDisposer {
   return reaction(
     () => selectorFn(item),
-    (selectorData, reaction) => effectFn(selectorData, item, reaction),
+    (selectorData, _, reaction) => effectFn(selectorData, item, reaction),
     options
   )
 }

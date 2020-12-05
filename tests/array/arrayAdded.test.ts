@@ -1,5 +1,9 @@
-import { observable, runInAction, IObservableArray } from 'mobx'
+import { observable, configure, runInAction, IObservableArray } from 'mobx'
 import { arrayAdded } from '../../src/array/arrayAdded'
+
+configure({
+  enforceActions: 'never'
+})
 
 type TestItem = {
   id: number
@@ -144,7 +148,7 @@ describe('Respond to adding Items ', () => {
     expect(cb.mock.calls[0][0]).toEqual([newItem1, newItem2])
     expect(cb).toBeCalledTimes(1)
   })
-  test('React to adding new items - with delay', done => {
+  test('React to adding new items - with delay', (done) => {
     const collection = observable<TestItem>([])
     const cb = jest.fn().mockImplementation(() => {
       expect(cb.mock.calls[0][0]).toEqual([

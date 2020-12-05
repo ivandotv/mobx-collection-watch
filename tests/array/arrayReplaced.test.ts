@@ -1,9 +1,14 @@
-import { observable, runInAction, IObservableArray } from 'mobx'
+import { observable, configure, runInAction, IObservableArray } from 'mobx'
 import { arrayReplaced } from '../../src/array/arrayReplaced'
 
 type TestItem = {
   id: number
 }
+
+configure({
+  enforceActions: 'never'
+})
+
 let testItems: TestItem[]
 beforeEach(() => {
   testItems = []
@@ -51,7 +56,7 @@ describe('Replacing items', () => {
     ])
     expect(checkItems).toBeCalledTimes(2)
   })
-  test('React to replacing items - with delay', done => {
+  test('React to replacing items - with delay', (done) => {
     const collection = observable(testItems)
     const checkItems = jest.fn().mockImplementation(() => {
       expect(checkItems.mock.calls[0][0]).toEqual([

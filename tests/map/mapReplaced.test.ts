@@ -1,5 +1,9 @@
-import { observable, runInAction, ObservableMap } from 'mobx'
+import { observable, configure, runInAction, ObservableMap } from 'mobx'
 import { mapReplaced } from '../../src/map/mapReplaced'
+
+configure({
+  enforceActions: 'never'
+})
 
 describe('Map Updated', () => {
   test('Update map primitive key (number)', () => {
@@ -61,7 +65,7 @@ describe('Map Updated', () => {
 
     expect(cb).toHaveBeenCalledTimes(2)
   })
-  test('Update to map - object as key - with delay', delay => {
+  test('Update to map - object as key - with delay', (delay) => {
     const collection = observable(new Map())
     const cb = jest.fn().mockImplementation(() => {
       expect(cb.mock.calls[0][0]).toEqual([
